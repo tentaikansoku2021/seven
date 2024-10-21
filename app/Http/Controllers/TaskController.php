@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Task;
+use Illuminate\Support\Facades\Validator;
 
 class TaskController extends Controller
 {
@@ -27,7 +29,15 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $rules = [
+            'task_name' => 'required|max:100',
+        ];
+        $messages = ['required' => '必須項目です', 'max' => '100文字以下にしてください。'];
+        Validator::make($request->all(),$rules,$messages)->validate();
+        $task = new Task;
+        $task->name = $request->input('task_name');
+        $task->save();
+        return redirect('/tasks');
     }
 
     /**
