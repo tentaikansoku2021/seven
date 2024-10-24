@@ -54,22 +54,34 @@ class TaskController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $task = Task::find($id);
+        return view('tasks.edit',compact('task'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request,$id)
     {
-        //
+        $inputs=$request->validate ([
+            'name'=>'request|max:100'
+        ]);
+        $messages = ['required' => '必須項目です', 'max' => '100文字以下にしてください。'];
+        Validator::make($request->all(),$inputs,$messages)->validate();
+
+        $task =Task::find($id);
+        $task->name = $request->input('task_name');
+        $task->save();
+        return redirect('/tasks');
+        // return redirect()->route('tasks.index');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($id)
     {
-        //
+        Task::find($id)->delete();
+        return redirect('/tasks');
     }
 }
