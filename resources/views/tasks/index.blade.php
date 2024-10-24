@@ -1,4 +1,5 @@
 <x-layout>
+ 
     <main class="grow">
         <div class="max-w-7xl mx-auto px-4 sm:px-6">
             <div class="py-[100px]">
@@ -39,7 +40,7 @@
                                         </th>
                                     </tr>
                                 </thead>
-                                <tbody class="divide-y divide-gray-200 bg-white">
+                                <tbody class="divide-y divide-gray-300 bg-white">
                                     @foreach($tasks as $item)
                                     <tr>
                                         <td class="px-3 py-4 text-sm text-gray-500">
@@ -50,18 +51,19 @@
                                         <td class="p-0 text-right text-sm font-medium">
                                             <div class="flex justify-end">
                                                 <div>
-                                                    <form action="" method="post" class="inline-block text-gray-500 font-medium" role="menuitem" tabindex="-1">
+                                                    <form action="{{route('tasks.update',$item)}}" method="post" class="inline-block text-gray-500 font-medium" role="menuitem" tabindex="-1">
                                                         @csrf
                                                         @method("PUT")
+                                                        <input type="hidden" name="status" value="{{ $item->status }}">
                                                         <button type="submit" class="bg-emerald-700 py-4 w20 text-white md:hover:bg:bg-emerald-800 transition-colors">完了</button>
                                                     </form>
                                                 </div>
                                                 <div>
-                                                    <a href="/tasks/{{$item->id}}/edit/"
+                                                    <a href="{{route('tasks.edit',$item)}}"
                                                         class="inline-block text-center py-4 w-20 underline underline-offset-2 text-sky-600 md:hover:bg-sky-100 transition-colors">編集</a>
                                                 </div>
                                                 <div>
-                                                    <form action="" method="post"
+                                                    <form action="{{route('tasks.destroy',$item)}}" method="post"
                                                         class="inline-block text-gray-500 font-medium"
                                                         role="menuitem" tabindex="-1">
                                                         @csrf
